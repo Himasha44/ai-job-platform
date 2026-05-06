@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Jobs from "./pages/Jobs";
 import EmployerDashboard from "./pages/EmployerDashboard";
+import "./App.css";
 
 function App() {
   const navigate = useNavigate();
