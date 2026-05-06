@@ -1,0 +1,50 @@
+### Register user
+POST http://localhost:5000/api/users/register
+Content-Type: application/json
+
+{
+  "name": "Nethmi",
+  "email": "nethmi@example.com",
+  "password": "123456",
+  "role": "jobseeker"
+}
+
+
+### Login user
+POST http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "nethmi@example.com",
+  "password": "123456"
+}
+
+
+### Get all jobs
+GET http://localhost:5000/api/jobs
+
+
+### Create job
+POST http://localhost:5000/api/jobs
+Content-Type: application/json
+
+{
+  "title": "Frontend Developer Intern",
+  "description": "Looking for a React beginner intern.",
+  "company": "ABC Tech",
+  "created_by": 1
+}
+
+
+### Apply for job
+POST http://localhost:5000/api/applications
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "job_id": 1
+}
+
+
+### Get all applications
+GET http://localhost:5000/api/applications
