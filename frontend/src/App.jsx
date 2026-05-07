@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Jobs from "./pages/Jobs";
 import EmployerDashboard from "./pages/EmployerDashboard";
 import "./App.css";
+import AiResume from "./pages/AiResume";
 
 function App() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function App() {
 
           <div className="nav-links">
             <Link to="/">Jobs</Link>
+              <Link to="/ai-resume">AI Resume</Link>
 
             {user?.role === "employer" && (
                 <Link to="/employer">Employer Dashboard</Link>
@@ -43,6 +45,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/employer" element={<EmployerDashboard />} />
+            <Route path="/ai-resume" element={<AiResume />} />
         </Routes>
       </div>
   );
