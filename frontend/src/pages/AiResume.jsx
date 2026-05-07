@@ -17,10 +17,7 @@ function AiResume() {
             setMessage("Analyzing resume...");
             setRecommendations(null);
 
-            const response = await API.post("/ai/analyze-resume", {
-                resumeText,
-            });
-
+            const response = await API.post("/ai/analyze-resume", { resumeText });
             setAnalysis(response.data.result);
             setMessage("Resume analyzed successfully.");
         } catch (error) {
@@ -39,10 +36,7 @@ function AiResume() {
             setMessage("Generating job recommendations...");
             setAnalysis(null);
 
-            const response = await API.post("/ai/recommend-jobs", {
-                resumeText,
-            });
-
+            const response = await API.post("/ai/recommend-jobs", { resumeText });
             setRecommendations(response.data.result);
             setMessage("Recommendations generated successfully.");
         } catch (error) {
@@ -52,79 +46,103 @@ function AiResume() {
     };
 
     return (
-        <div className="page">
-            <div className="form-card wide-card">
-                <h2>AI Resume Analyzer</h2>
+        <div>
+            <div className="dashboard-header">
+                <h2>AI Resume Studio</h2>
                 <p>
-                    Paste your resume text below. The AI will extract your skills and
-                    recommend suitable jobs.
+                    Paste resume content to extract skills, summarize qualifications, and
+                    get job recommendations.
                 </p>
+            </div>
 
-                {message && <p className="message">{message}</p>}
+            <div className="dashboard-grid">
+                <div className="dashboard-card">
+                    <h4>Resume Input</h4>
 
-                <textarea
-                    placeholder="Paste your resume text here..."
-                    value={resumeText}
-                    onChange={(e) => setResumeText(e.target.value)}
-                ></textarea>
+                    {message && <div className="message">{message}</div>}
 
-                <div className="button-group">
-                    <button onClick={analyzeResume}>Analyze Resume</button>
-                    <button onClick={getRecommendations}>Recommend Jobs</button>
+                    <div className="form-grid">
+                        <div className="input-group">
+                            <label>Resume Text</label>
+                            <textarea
+                                placeholder="Paste your full resume text here..."
+                                value={resumeText}
+                                onChange={(e) => setResumeText(e.target.value)}
+                            ></textarea>
+                        </div>
+
+                        <button className="primary-btn" onClick={analyzeResume}>
+                            Analyze Resume
+                        </button>
+                        <button className="secondary-btn" onClick={getRecommendations}>
+                            Recommend Jobs
+                        </button>
+                    </div>
                 </div>
 
-                {analysis && (
-                    <div className="result-box">
-                        <h3>Resume Analysis</h3>
+                <div className="dashboard-card">
+                    <h4>AI Output</h4>
 
-                        <p>
-                            <strong>Summary:</strong> {analysis.summary}
-                        </p>
+                    {!analysis && !recommendations && (
+                        <div className="empty-state">
+                            <p>No AI results yet. Start by analyzing your resume.</p>
+                        </div>
+                    )}
 
-                        <p>
-                            <strong>Experience:</strong> {analysis.experience}
-                        </p>
-
-                        <p>
-                            <strong>Education:</strong> {analysis.education}
-                        </p>
-
-                        <h4>Skills</h4>
-                        <ul>
-                            {analysis.skills?.map((skill, index) => (
-                                <li key={index}>{skill}</li>
-                            ))}
-                        </ul>
-
-                        <h4>Recommended Job Titles</h4>
-                        <ul>
-                            {analysis.recommended_job_titles?.map((title, index) => (
-                                <li key={index}>{title}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {recommendations && (
-                    <div className="result-box">
-                        <h3>Recommended Jobs</h3>
-
-                        {recommendations.recommendations?.map((job, index) => (
-                            <div className="recommendation-card" key={index}>
-                                <h4>{job.job_title}</h4>
-                                <p>
-                                    <strong>Company:</strong> {job.company}
-                                </p>
-                                <p>
-                                    <strong>Match Score:</strong> {job.match_score}%
-                                </p>
-                                <p>
-                                    <strong>Reason:</strong> {job.reason}
-                                </p>
+                    {analysis && (
+                        <div className="result-box">
+                            <div className="result-card">
+                                <h4>Professional Summary</h4>
+                                <p>{analysis.summary}</p>
                             </div>
-                        ))}
-                    </div>
-                )}
+
+                            <div className="result-card">
+                                <h4>Experience</h4>
+                                <p>{analysis.experience}</p>
+                            </div>
+
+                            <div className="result-card">
+                                <h4>Education</h4>
+                                <p>{analysis.education}</p>
+                            </div>
+
+                            <div className="result-card">
+                                <h4>Skills</h4>
+                                <div className="skills-list">
+                                    {analysis.skills?.map((skill, index) => (
+                                        <span className="skill-tag" key={index}>
+                      {skill}
+                    </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="result-card">
+                                <h4>Recommended Job Titles</h4>
+                                <div className="skills-list">
+                                    {analysis.recommended_job_titles?.map((title, index) => (
+                                        <span className="skill-tag" key={index}>
+                      {title}
+                    </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {recommendations && (
+                        <div className="result-box">
+                            {recommendations.recommendations?.map((job, index) => (
+                                <div className="recommendation-card" key={index}>
+                                    <h4>{job.job_title}</h4>
+                                    <p><strong>Company:</strong> {job.company}</p>
+                                    <p><strong>Match Score:</strong> {job.match_score}%</p>
+                                    <p><strong>Reason:</strong> {job.reason}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

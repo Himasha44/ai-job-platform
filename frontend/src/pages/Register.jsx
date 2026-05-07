@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import API from "../api/api";
 
 function Register() {
@@ -26,8 +26,8 @@ function Register() {
 
         try {
             await API.post("/users/register", formData);
-            setMessage("Registration successful. Please login.");
-            setTimeout(() => navigate("/login"), 1000);
+            setMessage("Registration successful. Redirecting to login...");
+            setTimeout(() => navigate("/login"), 1200);
         } catch (error) {
             setMessage("Registration failed. Email may already exist.");
             console.error(error);
@@ -35,48 +35,85 @@ function Register() {
     };
 
     return (
-        <div className="page">
-            <div className="form-card">
-                <h2>Create Account</h2>
+        <div className="auth-layout">
+            <div className="auth-left">
+                <div>
+                    <h2>Create your account</h2>
+                    <p>
+                        Join the platform as a job seeker, employer, or trainer and start
+                        using a more structured and modern hiring environment.
+                    </p>
 
-                {message && <p className="message">{message}</p>}
+                    <div className="auth-feature-list">
+                        <div className="auth-feature">Job seekers can apply for relevant roles</div>
+                        <div className="auth-feature">Employers can post and manage openings</div>
+                        <div className="auth-feature">AI-powered assistance can guide decisions</div>
+                    </div>
+                </div>
 
-                <form onSubmit={handleRegister}>
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Full name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
+                <p>Built to connect talent, learning, and opportunity in one platform.</p>
+            </div>
 
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email address"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
+            <div className="auth-right">
+                <div className="auth-card">
+                    <h3>Register</h3>
+                    <p>Set up your profile to get started</p>
 
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
+                    {message && <div className="message">{message}</div>}
 
-                    <select name="role" value={formData.role} onChange={handleChange}>
-                        <option value="jobseeker">Job Seeker</option>
-                        <option value="employer">Employer</option>
-                        <option value="trainer">Trainer</option>
-                    </select>
+                    <form className="form-grid" onSubmit={handleRegister}>
+                        <div className="input-group">
+                            <label>Full Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Your full name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
 
-                    <button type="submit">Register</button>
-                </form>
+                        <div className="input-group">
+                            <label>Email Address</label>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Create a password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label>Role</label>
+                            <select name="role" value={formData.role} onChange={handleChange}>
+                                <option value="jobseeker">Job Seeker</option>
+                                <option value="employer">Employer</option>
+                                <option value="trainer">Trainer</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" className="primary-btn">Create Account</button>
+                    </form>
+
+                    <p style={{ marginTop: "18px" }}>
+                        Already have an account? <Link to="/login">Sign in</Link>
+                    </p>
+                </div>
             </div>
         </div>
     );

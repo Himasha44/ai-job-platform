@@ -1,10 +1,25 @@
+:root {
+  font-family: Inter, Arial, sans-serif;
+  color: #1f2937;
+  background: #f4f7fb;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
 * {
   box-sizing: border-box;
 }
 
-body {
+html,
+body,
+#root {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #222;
+  min-height: 100%;
+}
+
+body {
+  background:
+          radial-gradient(circle at top left, #eef4ff 0%, transparent 32%),
+          radial-gradient(circle at top right, #f5f3ff 0%, transparent 28%),
+          #f4f7fb;
 }

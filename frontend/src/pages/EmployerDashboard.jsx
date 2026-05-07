@@ -16,9 +16,9 @@ function EmployerDashboard() {
 
     if (!user || user.role !== "employer") {
         return (
-            <div className="page">
-                <h2>Access Denied</h2>
-                <p>Only employers can access this page.</p>
+            <div className="empty-state">
+                <h3>Access Denied</h3>
+                <p>Only employers can access this dashboard.</p>
             </div>
         );
     }
@@ -55,58 +55,108 @@ function EmployerDashboard() {
     };
 
     return (
-        <div className="page">
-            <div className="form-card">
+        <div>
+            <div className="dashboard-header">
                 <h2>Employer Dashboard</h2>
-                <p>Post a new job opening</p>
+                <p>Create and manage job opportunities from one place.</p>
+            </div>
 
-                {message && <p className="message">{message}</p>}
+            <div className="summary-strip">
+                <div className="summary-box">
+                    <h4>Logged In User</h4>
+                    <span>{user.name}</span>
+                </div>
+                <div className="summary-box">
+                    <h4>Role</h4>
+                    <span>{user.role}</span>
+                </div>
+                <div className="summary-box">
+                    <h4>Platform Area</h4>
+                    <span>Hiring</span>
+                </div>
+            </div>
 
-                <form onSubmit={createJob}>
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="Job title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        required
-                    />
+            {message && <div className="message">{message}</div>}
 
-                    <textarea
-                        name="description"
-                        placeholder="Job description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        required
-                    ></textarea>
+            <div className="dashboard-grid">
+                <div className="dashboard-card">
+                    <h4>Hiring Tips</h4>
+                    <p>
+                        Use clear job titles, detailed descriptions, and simple salary/location
+                        information to attract better candidates.
+                    </p>
+                    <ul>
+                        <li>Be specific about required skills</li>
+                        <li>Write simple, readable job descriptions</li>
+                        <li>Mention location and salary when possible</li>
+                        <li>Post roles in a structured format</li>
+                    </ul>
+                </div>
 
-                    <input
-                        type="text"
-                        name="company"
-                        placeholder="Company name"
-                        value={formData.company}
-                        onChange={handleChange}
-                        required
-                    />
+                <div className="dashboard-card">
+                    <h4>Post a New Job</h4>
 
-                    <input
-                        type="text"
-                        name="location"
-                        placeholder="Location"
-                        value={formData.location}
-                        onChange={handleChange}
-                    />
+                    <form className="form-grid" onSubmit={createJob}>
+                        <div className="input-group">
+                            <label>Job Title</label>
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Frontend Developer Intern"
+                                value={formData.title}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
 
-                    <input
-                        type="text"
-                        name="salary"
-                        placeholder="Salary"
-                        value={formData.salary}
-                        onChange={handleChange}
-                    />
+                        <div className="input-group">
+                            <label>Description</label>
+                            <textarea
+                                name="description"
+                                placeholder="Describe responsibilities, required skills, and expectations..."
+                                value={formData.description}
+                                onChange={handleChange}
+                                required
+                            ></textarea>
+                        </div>
 
-                    <button type="submit">Post Job</button>
-                </form>
+                        <div className="input-group">
+                            <label>Company</label>
+                            <input
+                                type="text"
+                                name="company"
+                                placeholder="ABC Tech"
+                                value={formData.company}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label>Location</label>
+                            <input
+                                type="text"
+                                name="location"
+                                placeholder="Colombo"
+                                value={formData.location}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label>Salary</label>
+                            <input
+                                type="text"
+                                name="salary"
+                                placeholder="LKR 50,000"
+                                value={formData.salary}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <button type="submit" className="primary-btn">Publish Job</button>
+                    </form>
+                </div>
             </div>
         </div>
     );

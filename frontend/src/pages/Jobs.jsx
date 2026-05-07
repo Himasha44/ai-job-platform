@@ -34,7 +34,7 @@ function Jobs() {
                 job_id: jobId,
             });
 
-            setMessage("Applied successfully.");
+            setMessage("Application submitted successfully.");
         } catch (error) {
             console.error(error);
             setMessage("Application failed.");
@@ -46,40 +46,76 @@ function Jobs() {
     }, []);
 
     return (
-        <div className="page">
-            <h1>Available Jobs</h1>
+        <div>
+            <section className="hero">
+                <div>
+                    <h2>Discover your next career move</h2>
+                    <p>
+                        Explore job opportunities, connect with employers, and use AI-powered
+                        tools to better understand your skills and career path.
+                    </p>
+                </div>
 
-            {message && <p className="message">{message}</p>}
+                <div className="hero-stats">
+                    <div className="stat-card">
+                        <h3>{jobs.length}</h3>
+                        <span>Available Jobs</span>
+                    </div>
+                    <div className="stat-card">
+                        <h3>{user ? "1" : "0"}</h3>
+                        <span>Active Session</span>
+                    </div>
+                    <div className="stat-card">
+                        <h3>AI</h3>
+                        <span>Smart Career Support</span>
+                    </div>
+                </div>
+            </section>
 
-            <div className="job-list">
-                {jobs.length === 0 ? (
-                    <p>No jobs available yet.</p>
-                ) : (
-                    jobs.map((job) => (
-                        <div className="job-card" key={job.id}>
-                            <h3>{job.title}</h3>
-                            <p>{job.description}</p>
-                            <p>
-                                <strong>Company:</strong> {job.company}
-                            </p>
+            {message && <div className="message">{message}</div>}
 
-                            {job.location && (
-                                <p>
-                                    <strong>Location:</strong> {job.location}
-                                </p>
-                            )}
-
-                            {job.salary && (
-                                <p>
-                                    <strong>Salary:</strong> {job.salary}
-                                </p>
-                            )}
-
-                            <button onClick={() => applyJob(job.id)}>Apply</button>
-                        </div>
-                    ))
-                )}
+            <div className="section-header">
+                <div>
+                    <h3>Open Positions</h3>
+                    <p>Browse all currently available opportunities</p>
+                </div>
+                <div className="info-chip">
+                    {user ? `Logged in as ${user.role}` : "Browse as guest"}
+                </div>
             </div>
+
+            {jobs.length === 0 ? (
+                <div className="empty-state">
+                    <h3>No jobs available yet</h3>
+                    <p>Employers haven’t posted any jobs yet. Check back later.</p>
+                </div>
+            ) : (
+                <div className="jobs-grid">
+                    {jobs.map((job) => (
+                        <div className="job-card" key={job.id}>
+                            <div className="job-card-top">
+                                <div>
+                                    <h4>{job.title}</h4>
+                                    <div className="job-company">{job.company}</div>
+                                </div>
+                                <div className="meta-pill">Job ID #{job.id}</div>
+                            </div>
+
+                            <p className="job-description">{job.description}</p>
+
+                            <div className="job-meta">
+                                {job.location && <span className="meta-pill">📍 {job.location}</span>}
+                                {job.salary && <span className="meta-pill">💰 {job.salary}</span>}
+                                <span className="meta-pill">Posted by User #{job.created_by}</span>
+                            </div>
+
+                            <button className="primary-btn" onClick={() => applyJob(job.id)}>
+                                Apply Now
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
