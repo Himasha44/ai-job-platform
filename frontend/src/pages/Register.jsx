@@ -13,6 +13,7 @@ function Register() {
     });
 
     const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData({
@@ -23,14 +24,28 @@ function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setMessage("");
+        setLoading(true);
 
         try {
             await API.post("/users/register", formData);
+
             setMessage("Registration successful. Redirecting to login...");
-            setTimeout(() => navigate("/login"), 1200);
+
+            setTimeout(() => {
+                navigate("/login");
+            }, 1200);
         } catch (error) {
-            setMessage("Registration failed. Email may already exist.");
-            console.error(error);
+            console.error("Register error:", error);
+
+            const errorMessage =
+                error.response?.data?.message ||
+                error.response?.data?.sqlMessage ||
+                "Registration failed. Email may already exist.";
+
+            setMessage(errorMessage);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -38,26 +53,31 @@ function Register() {
         <div className="auth-layout">
             <div className="auth-left">
                 <div>
+                    <div className="auth-logo">AI Job Platform</div>
+
                     <h2>Create your account</h2>
+
                     <p>
-                        Join the platform as a job seeker, employer, or trainer and start
-                        using a more structured and modern hiring environment.
+                        Register as a job seeker, employer, or trainer and start using the
+                        platform.
                     </p>
 
                     <div className="auth-feature-list">
-                        <div className="auth-feature">Job seekers can apply for relevant roles</div>
-                        <div className="auth-feature">Employers can post and manage openings</div>
-                        <div className="auth-feature">AI-powered assistance can guide decisions</div>
+                        <div className="auth-feature">Job seekers can apply for jobs</div>
+                        <div className="auth-feature">Employers can post openings</div>
+                        <div className="auth-feature">Trainers can support learning</div>
                     </div>
                 </div>
 
-                <p>Built to connect talent, learning, and opportunity in one platform.</p>
+                <p className="auth-footer-text">
+                    Connect talent, skills, and opportunities in one place.
+                </p>
             </div>
 
             <div className="auth-right">
                 <div className="auth-card">
                     <h3>Register</h3>
-                    <p>Set up your profile to get started</p>
+                    <p>Create your account to get started</p>
 
                     {message && <div className="message">{message}</div>}
 
@@ -107,10 +127,12 @@ function Register() {
                             </select>
                         </div>
 
-                        <button type="submit" className="primary-btn">Create Account</button>
+                        <button type="submit" className="primary-btn" disabled={loading}>
+                            {loading ? "Creating account..." : "Create Account"}
+                        </button>
                     </form>
 
-                    <p style={{ marginTop: "18px" }}>
+                    <p className="auth-switch-text">
                         Already have an account? <Link to="/login">Sign in</Link>
                     </p>
                 </div>

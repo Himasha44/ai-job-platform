@@ -9,6 +9,7 @@ import "./App.css";
 function App() {
     const navigate = useNavigate();
     const location = useLocation();
+
     const user = JSON.parse(localStorage.getItem("user"));
 
     const logout = () => {
@@ -28,7 +29,7 @@ function App() {
                         <div className="brand-logo">AJ</div>
                         <div>
                             <h1 className="brand-title">AI Job Platform</h1>
-                            <p className="brand-subtitle">Find opportunities. Build your future.</p>
+                            <p className="brand-subtitle">Smart hiring and career growth</p>
                         </div>
                     </div>
 
@@ -37,7 +38,9 @@ function App() {
                         <Link to="/ai-resume" className="nav-item">AI Resume</Link>
 
                         {user?.role === "employer" && (
-                            <Link to="/employer" className="nav-item">Employer Dashboard</Link>
+                            <Link to="/employer" className="nav-item">
+                                Employer Dashboard
+                            </Link>
                         )}
 
                         {!user ? (
@@ -51,7 +54,9 @@ function App() {
                                     <span className="user-name">{user.name}</span>
                                     <span className="user-role">{user.role}</span>
                                 </div>
-                                <button className="danger-btn" onClick={logout}>Logout</button>
+                                <button className="danger-btn" onClick={logout}>
+                                    Logout
+                                </button>
                             </div>
                         )}
                     </nav>
