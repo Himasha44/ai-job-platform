@@ -48,3 +48,20 @@ Content-Type: application/json
 
 ### Get all applications
 GET http://localhost:5000/api/applications
+
+### Analyze Resume with AI
+POST http://localhost:5000/api/ai/analyze-resume
+Content-Type: application/json
+
+{
+  "resumeText": "I am a software engineering student with knowledge of JavaScript, React, Node.js, Express, MySQL, HTML, CSS, and Git. I built a job platform project and I am looking for an internship as a frontend developer or full stack developer."
+}
+
+
+### Recommend Jobs with AI
+POST http://localhost:5000/api/ai/recommend-jobs
+Content-Type: application/json
+
+{
+  "resumeText": "I know React, JavaScript, HTML, CSS, Node.js, Express and MySQL. I am looking for an internship in frontend or full stack development."
+}
